@@ -139,3 +139,483 @@
         @apply bg-background text-foreground;
     }
 }
+
+@layer components {
+    /* Responsive container utilities */
+    .container-responsive {
+        @apply w-full px-4 sm:px-6 lg:px-8;
+    }
+
+    /* Card hover effects */
+    .card-hover {
+        @apply transition-all duration-200 hover:shadow-md hover:shadow-black/5;
+    }
+
+    /* Icon background utilities */
+    .icon-bg {
+        @apply rounded-full p-2 transition-colors;
+    }
+
+    .icon-bg-blue {
+        @apply bg-blue-100 dark:bg-blue-900/20;
+    }
+
+    .icon-bg-green {
+        @apply bg-green-100 dark:bg-green-900/20;
+    }
+
+    .icon-bg-yellow {
+        @apply bg-yellow-100 dark:bg-yellow-900/20;
+    }
+
+    .icon-bg-gray {
+        @apply bg-gray-100 dark:bg-gray-900/20;
+    }
+
+    .icon-bg-purple {
+        @apply bg-purple-100 dark:bg-purple-900/20;
+    }
+
+    .icon-bg-orange {
+        @apply bg-orange-100 dark:bg-orange-900/20;
+    }
+
+    /* Text color utilities for icons */
+    .icon-blue {
+        @apply text-blue-600 dark:text-blue-400;
+    }
+
+    .icon-green {
+        @apply text-green-600 dark:text-green-400;
+    }
+
+    .icon-yellow {
+        @apply text-yellow-600 dark:text-yellow-400;
+    }
+
+    .icon-gray {
+        @apply text-gray-600 dark:text-gray-400;
+    }
+
+    .icon-purple {
+        @apply text-purple-600 dark:text-purple-400;
+    }
+
+    .icon-orange {
+        @apply text-orange-600 dark:text-orange-400;
+    }
+
+    /* Responsive grid utilities */
+    .stats-grid {
+        @apply grid gap-4 sm:grid-cols-2 lg:grid-cols-4;
+    }
+
+    .content-grid {
+        @apply grid gap-6 lg:grid-cols-3;
+    }
+
+    .form-grid {
+        @apply grid grid-cols-1 gap-6 xl:grid-cols-3;
+    }
+
+    /* Form field spacing */
+    .form-section {
+        @apply space-y-6;
+    }
+
+    .form-field {
+        @apply space-y-2;
+    }
+
+    /* Button variants for consistency */
+    .btn-responsive {
+        @apply w-full sm:w-auto;
+    }
+
+    /* Table responsive utilities */
+    .table-mobile-card {
+        @apply md:hidden;
+    }
+
+    .table-desktop {
+        @apply hidden md:block;
+    }
+
+    /* Loading spinner */
+    .spinner {
+        @apply h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent;
+    }
+
+    /* Status indicator */
+    .status-dot {
+        @apply h-2 w-2 rounded-full;
+    }
+
+    /* Text truncation utilities */
+    .text-truncate-mobile {
+        @apply truncate sm:text-clip;
+    }
+
+    /* Responsive spacing */
+    .section-spacing {
+        @apply space-y-4 p-4 md:p-6 lg:p-8;
+    }
+
+    .card-spacing {
+        @apply space-y-4 pt-0;
+    }
+
+    /* Header responsive */
+    .page-header {
+        @apply flex flex-col space-y-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0;
+    }
+
+    .page-title {
+        @apply space-y-1;
+    }
+
+    .page-title h1 {
+        @apply text-2xl font-bold tracking-tight sm:text-3xl;
+    }
+
+    .page-title p {
+        @apply text-sm text-muted-foreground sm:text-base;
+    }
+
+    /* Filter form responsive */
+    .filter-grid {
+        @apply grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-6 lg:items-end;
+    }
+
+    .filter-field {
+        @apply lg:col-span-2;
+    }
+
+    .filter-select {
+        @apply lg:col-span-1;
+    }
+
+    .filter-button {
+        @apply lg:col-span-1;
+    }
+
+    /* Mobile card layout */
+    .mobile-card-content {
+        @apply flex items-start space-x-3 flex-1;
+    }
+
+    .mobile-card-info {
+        @apply flex-1 min-w-0;
+    }
+
+    .mobile-card-title {
+        @apply flex items-center gap-2 mb-1;
+    }
+
+    .mobile-card-meta {
+        @apply flex items-center gap-4 text-xs text-muted-foreground;
+    }
+
+    /* Smooth transitions */
+    .smooth-transition {
+        @apply transition-all duration-200 ease-in-out;
+    }
+
+    /* Focus styles */
+    .focus-ring {
+        @apply focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2;
+    }
+}
+
+@layer utilities {
+    /* Line clamp utilities for better text truncation */
+    .line-clamp-1 {
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 1;
+    }
+
+    .line-clamp-2 {
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+    }
+
+    .line-clamp-3 {
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 3;
+    }
+
+    /* Custom scrollbars */
+    .scrollbar-thin {
+        scrollbar-width: thin;
+        scrollbar-color: rgb(203 213 225) transparent;
+    }
+
+    .scrollbar-thin::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .scrollbar-thin::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .scrollbar-thin::-webkit-scrollbar-thumb {
+        background-color: rgb(203 213 225);
+        border-radius: 3px;
+    }
+
+    .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+        background-color: rgb(148 163 184);
+    }
+
+    /* Responsive aspect ratios */
+    .aspect-card {
+        aspect-ratio: 16 / 9;
+    }
+
+    .aspect-square {
+        aspect-ratio: 1 / 1;
+    }
+
+    /* Safe area utilities for mobile */
+    .safe-top {
+        padding-top: env(safe-area-inset-top);
+    }
+
+    .safe-bottom {
+        padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    /* Animation utilities */
+    .animate-in {
+        animation: animate-in 0.2s ease-out;
+    }
+
+    @keyframes animate-in {
+        0% {
+            opacity: 0;
+            transform: translateY(0.25rem);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Glass effect for modern UI */
+    .glass {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .dark .glass {
+        background: rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+}
+
+/* Additional responsive utilities for better mobile experience */
+@layer components {
+    /* Mobile-first responsive containers */
+    .mobile-container {
+        @apply px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto;
+    }
+
+    /* Improved touch targets for mobile */
+    .touch-target {
+        @apply min-h-[44px] min-w-[44px];
+    }
+
+    /* Mobile-optimized button sizing */
+    .btn-mobile {
+        @apply h-11 px-4 text-base;
+    }
+
+    /* Responsive text sizing */
+    .text-responsive-sm {
+        @apply text-sm sm:text-base;
+    }
+
+    .text-responsive-lg {
+        @apply text-lg sm:text-xl lg:text-2xl;
+    }
+
+    .text-responsive-xl {
+        @apply text-xl sm:text-2xl lg:text-3xl;
+    }
+
+    /* Improved mobile form styling */
+    .form-input-mobile {
+        @apply h-11 px-4 text-base rounded-lg border-2 transition-colors;
+    }
+
+    /* Mobile-friendly card layouts */
+    .card-mobile {
+        @apply p-4 sm:p-6 rounded-lg shadow-sm border transition-shadow;
+    }
+
+    /* Responsive grid systems */
+    .grid-responsive-1 {
+        @apply grid grid-cols-1;
+    }
+
+    .grid-responsive-2 {
+        @apply grid grid-cols-1 sm:grid-cols-2;
+    }
+
+    .grid-responsive-3 {
+        @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3;
+    }
+
+    .grid-responsive-4 {
+        @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4;
+    }
+
+    /* Mobile navigation improvements */
+    .nav-mobile {
+        @apply block sm:hidden;
+    }
+
+    .nav-desktop {
+        @apply hidden sm:block;
+    }
+
+    /* Responsive spacing utilities */
+    .space-mobile {
+        @apply space-y-4 sm:space-y-6 lg:space-y-8;
+    }
+
+    .gap-mobile {
+        @apply gap-4 sm:gap-6 lg:gap-8;
+    }
+
+    /* Mobile-optimized table alternatives */
+    .table-mobile-stack {
+        @apply block sm:table;
+    }
+
+    .table-mobile-row {
+        @apply block sm:table-row border-b sm:border-b-0 py-4 sm:py-0;
+    }
+
+    .table-mobile-cell {
+        @apply block sm:table-cell px-0 sm:px-4 py-1 sm:py-3;
+    }
+
+    /* Improved mobile typography */
+    .heading-mobile {
+        @apply text-2xl font-bold leading-tight sm:text-3xl sm:leading-tight;
+    }
+
+    .subheading-mobile {
+        @apply text-lg font-semibold leading-snug sm:text-xl sm:leading-snug;
+    }
+
+    /* Mobile-friendly status indicators */
+    .status-mobile {
+        @apply inline-flex items-center px-2 py-1 text-xs font-medium rounded-full;
+    }
+
+    /* Responsive image handling */
+    .img-responsive {
+        @apply w-full h-auto object-cover rounded-lg;
+    }
+
+    /* Mobile-optimized dropdown positioning */
+    .dropdown-mobile {
+        @apply w-56 sm:w-auto;
+    }
+
+    /* Improved mobile accessibility */
+    .focus-mobile {
+        @apply focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500;
+    }
+
+    /* Mobile-friendly loading states */
+    .loading-mobile {
+        @apply animate-pulse bg-gray-200 dark:bg-gray-700 rounded;
+    }
+
+    /* Responsive flex utilities */
+    .flex-mobile-col {
+        @apply flex flex-col sm:flex-row;
+    }
+
+    .flex-mobile-row {
+        @apply flex flex-row sm:flex-col lg:flex-row;
+    }
+
+    /* Mobile-optimized sidebar handling */
+    .sidebar-mobile {
+        @apply fixed inset-0 z-50 lg:static lg:z-auto;
+    }
+
+    /* Improved mobile search */
+    .search-mobile {
+        @apply w-full sm:w-auto sm:min-w-[300px];
+    }
+
+    /* Mobile-friendly pagination */
+    .pagination-mobile {
+        @apply flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-0;
+    }
+}
+
+/* Mobile-specific media queries for fine-tuning */
+@media (max-width: 640px) {
+    /* Reduce motion for mobile users who prefer it */
+    @media (prefers-reduced-motion: reduce) {
+        * {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+        }
+    }
+
+    /* Mobile-specific form improvements */
+    .form-section {
+        @apply space-y-4;
+    }
+
+    /* Mobile-specific button improvements */
+    .btn-group {
+        @apply flex flex-col space-y-2;
+    }
+
+    /* Mobile-specific card improvements */
+    .card-grid {
+        @apply space-y-4;
+    }
+}
+
+/* Tablet-specific optimizations */
+@media (min-width: 641px) and (max-width: 1024px) {
+    .tablet-optimized {
+        @apply px-6;
+    }
+}
+
+/* Desktop-specific optimizations */
+@media (min-width: 1025px) {
+    .desktop-optimized {
+        @apply px-8;
+    }
+
+    /* Enhanced hover states for desktop */
+    .hover-desktop:hover {
+        @apply transform translate-y-[-2px] shadow-lg transition-all duration-200;
+    }
+}
+
+/* High DPI display optimizations */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .high-dpi {
+        @apply text-base;
+    }
+}
