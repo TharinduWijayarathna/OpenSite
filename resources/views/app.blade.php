@@ -2,7 +2,12 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" @class(['dark' => ($appearance ?? 'system') == 'dark'])>
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+        <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+        <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="default">
 
         {{-- Inline script to detect system dark mode preference and apply it immediately --}}
         <script>
@@ -23,10 +28,33 @@
         <style>
             html {
                 background-color: oklch(1 0 0);
+                scroll-behavior: smooth;
             }
 
             html.dark {
                 background-color: oklch(0.145 0 0);
+            }
+
+            /* Prevent zoom on iOS inputs */
+            @media screen and (max-width: 767px) {
+                input[type="text"],
+                input[type="email"],
+                input[type="password"],
+                input[type="number"],
+                input[type="search"],
+                input[type="url"],
+                textarea,
+                select {
+                    font-size: 16px !important;
+                }
+            }
+
+            /* Safe area handling for devices with notches */
+            @supports (padding: env(safe-area-inset-left)) {
+                body {
+                    padding-left: env(safe-area-inset-left);
+                    padding-right: env(safe-area-inset-right);
+                }
             }
         </style>
 
