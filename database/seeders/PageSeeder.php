@@ -2,11 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 use App\Models\Page;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Database\Seeder;
 
 class PageSeeder extends Seeder
 {
@@ -17,7 +16,7 @@ class PageSeeder extends Seeder
     {
         // Get the first user or create one for testing
         $user = User::first();
-        if (!$user) {
+        if (! $user) {
             $user = User::create([
                 'name' => 'Admin User',
                 'email' => 'admin@example.com',
@@ -40,8 +39,8 @@ class PageSeeder extends Seeder
                 'meta_data' => [
                     'title' => 'Welcome - Your Gateway to Excellence',
                     'description' => 'Discover what makes us special and learn about our mission, values, and commitment to excellence.',
-                    'keywords' => 'welcome, mission, values, excellence, innovation'
-                ]
+                    'keywords' => 'welcome, mission, values, excellence, innovation',
+                ],
             ],
             [
                 'title' => 'About Our Company',
@@ -55,8 +54,8 @@ class PageSeeder extends Seeder
                 'meta_data' => [
                     'title' => 'About Us - Our Story and Values',
                     'description' => 'Learn about our history, our team, and the values that drive everything we do.',
-                    'keywords' => 'about, company, history, team, values, mission'
-                ]
+                    'keywords' => 'about, company, history, team, values, mission',
+                ],
             ],
             [
                 'title' => 'Getting Started with Dynamic Pages',
@@ -70,8 +69,8 @@ class PageSeeder extends Seeder
                 'meta_data' => [
                     'title' => 'Getting Started with Dynamic Pages - Complete Guide',
                     'description' => 'A comprehensive guide to understanding and using our dynamic page system effectively.',
-                    'keywords' => 'dynamic pages, guide, tutorial, cms, content management'
-                ]
+                    'keywords' => 'dynamic pages, guide, tutorial, cms, content management',
+                ],
             ],
             [
                 'title' => 'Our Latest Project Portfolio',
@@ -85,8 +84,8 @@ class PageSeeder extends Seeder
                 'meta_data' => [
                     'title' => 'Latest Project Portfolio - Recent Work Showcase',
                     'description' => 'Showcasing our most recent work and the innovative solutions we\'ve delivered for our clients.',
-                    'keywords' => 'portfolio, projects, web development, laravel, react, showcase'
-                ]
+                    'keywords' => 'portfolio, projects, web development, laravel, react, showcase',
+                ],
             ],
             [
                 'title' => 'Contact Us',
@@ -100,8 +99,8 @@ class PageSeeder extends Seeder
                 'meta_data' => [
                     'title' => 'Contact Us - Get in Touch',
                     'description' => 'Get in touch with our team. We\'re here to answer your questions and help you succeed.',
-                    'keywords' => 'contact, support, help, questions, team'
-                ]
+                    'keywords' => 'contact, support, help, questions, team',
+                ],
             ],
             [
                 'title' => 'Privacy Policy Draft',
@@ -115,8 +114,8 @@ class PageSeeder extends Seeder
                 'meta_data' => [
                     'title' => 'Privacy Policy - Data Protection Commitment',
                     'description' => 'Our commitment to protecting your privacy and personal information.',
-                    'keywords' => 'privacy, policy, data protection, personal information'
-                ]
+                    'keywords' => 'privacy, policy, data protection, personal information',
+                ],
             ],
             [
                 'title' => 'Legacy Content Archive',
@@ -130,9 +129,9 @@ class PageSeeder extends Seeder
                 'meta_data' => [
                     'title' => 'Legacy Content Archive - Historical Reference',
                     'description' => 'Historical content that is no longer actively maintained but preserved for reference.',
-                    'keywords' => 'legacy, archive, historical, reference, outdated'
-                ]
-            ]
+                    'keywords' => 'legacy, archive, historical, reference, outdated',
+                ],
+            ],
         ];
 
         foreach ($pages as $pageData) {
@@ -141,6 +140,6 @@ class PageSeeder extends Seeder
             Page::create($pageData);
         }
 
-        $this->command->info('Created ' . count($pages) . ' sample pages with different templates and statuses.');
+        $this->command->info('Created '.count($pages).' sample pages with different templates and statuses.');
     }
 }

@@ -1,11 +1,11 @@
 <?php
 
+use App\Http\Controllers\Admin\PageController as AdminPageController;
+use App\Http\Controllers\PageController;
+use App\Models\Page;
+use App\Services\PageService;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use App\Http\Controllers\PageController;
-use App\Http\Controllers\Admin\PageController as AdminPageController;
-use App\Services\PageService;
-use App\Models\Page;
 
 Route::get('/', function () {
     return Inertia::render('welcome');

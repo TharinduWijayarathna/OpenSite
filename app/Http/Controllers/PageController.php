@@ -9,9 +9,7 @@ use Inertia\Response;
 
 class PageController extends Controller
 {
-    public function __construct(private PageService $pageService)
-    {
-    }
+    public function __construct(private PageService $pageService) {}
 
     /**
      * Display a listing of published pages
@@ -33,7 +31,7 @@ class PageController extends Controller
     {
         $page = $this->pageService->findPublishedBySlug($slug);
 
-        if (!$page) {
+        if (! $page) {
             abort(404);
         }
 

@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Builder;
-use Carbon\Carbon;
 
 class Page extends Model
 {
@@ -44,10 +44,10 @@ class Page extends Model
     public function scopePublished(Builder $query): Builder
     {
         return $query->where('status', 'published')
-                    ->where(function ($q) {
-                        $q->whereNull('published_at')
-                          ->orWhere('published_at', '<=', now());
-                    });
+            ->where(function ($q) {
+                $q->whereNull('published_at')
+                    ->orWhere('published_at', '<=', now());
+            });
     }
 
     public function scopeDraft(Builder $query): Builder
@@ -87,18 +87,21 @@ class Page extends Model
     {
         $this->status = 'published';
         $this->published_at = $publishedAt ?? now();
+
         return $this->save();
     }
 
     public function unpublish(): bool
     {
         $this->status = 'draft';
+
         return $this->save();
     }
 
     public function archive(): bool
     {
         $this->status = 'archived';
+
         return $this->save();
     }
 }

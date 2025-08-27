@@ -4,17 +4,15 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Services\PageService;
-use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class PageController extends Controller
 {
-    public function __construct(private PageService $pageService)
-    {
-    }
+    public function __construct(private PageService $pageService) {}
 
     /**
      * Display a listing of the resource.
@@ -74,7 +72,7 @@ class PageController extends Controller
         } catch (\Exception $e) {
             return back()
                 ->withInput()
-                ->withErrors(['error' => 'Failed to create page: ' . $e->getMessage()]);
+                ->withErrors(['error' => 'Failed to create page: '.$e->getMessage()]);
         }
     }
 
@@ -85,7 +83,7 @@ class PageController extends Controller
     {
         $page = $this->pageService->findPage($id);
 
-        if (!$page) {
+        if (! $page) {
             abort(404);
         }
 
@@ -101,7 +99,7 @@ class PageController extends Controller
     {
         $page = $this->pageService->findPage($id);
 
-        if (!$page) {
+        if (! $page) {
             abort(404);
         }
 
@@ -141,7 +139,7 @@ class PageController extends Controller
         } catch (\Exception $e) {
             return back()
                 ->withInput()
-                ->withErrors(['error' => 'Failed to update page: ' . $e->getMessage()]);
+                ->withErrors(['error' => 'Failed to update page: '.$e->getMessage()]);
         }
     }
 
@@ -158,7 +156,7 @@ class PageController extends Controller
                 ->with('success', 'Page deleted successfully.');
         } catch (\Exception $e) {
             return back()
-                ->withErrors(['error' => 'Failed to delete page: ' . $e->getMessage()]);
+                ->withErrors(['error' => 'Failed to delete page: '.$e->getMessage()]);
         }
     }
 
@@ -172,7 +170,7 @@ class PageController extends Controller
 
             return back()->with('success', 'Page published successfully.');
         } catch (\Exception $e) {
-            return back()->withErrors(['error' => 'Failed to publish page: ' . $e->getMessage()]);
+            return back()->withErrors(['error' => 'Failed to publish page: '.$e->getMessage()]);
         }
     }
 
@@ -186,7 +184,7 @@ class PageController extends Controller
 
             return back()->with('success', 'Page unpublished successfully.');
         } catch (\Exception $e) {
-            return back()->withErrors(['error' => 'Failed to unpublish page: ' . $e->getMessage()]);
+            return back()->withErrors(['error' => 'Failed to unpublish page: '.$e->getMessage()]);
         }
     }
 
@@ -200,7 +198,7 @@ class PageController extends Controller
 
             return back()->with('success', 'Page archived successfully.');
         } catch (\Exception $e) {
-            return back()->withErrors(['error' => 'Failed to archive page: ' . $e->getMessage()]);
+            return back()->withErrors(['error' => 'Failed to archive page: '.$e->getMessage()]);
         }
     }
 
@@ -216,7 +214,7 @@ class PageController extends Controller
                 ->route('admin.pages.edit', $page)
                 ->with('success', 'Page duplicated successfully.');
         } catch (\Exception $e) {
-            return back()->withErrors(['error' => 'Failed to duplicate page: ' . $e->getMessage()]);
+            return back()->withErrors(['error' => 'Failed to duplicate page: '.$e->getMessage()]);
         }
     }
 
@@ -238,22 +236,26 @@ class PageController extends Controller
             switch ($action) {
                 case 'delete':
                     $count = $this->pageService->bulkDelete($ids);
+
                     return back()->with('success', "Deleted {$count} pages successfully.");
 
                 case 'publish':
                     $count = $this->pageService->bulkUpdate($ids, ['status' => 'published', 'published_at' => now()], $request->user());
+
                     return back()->with('success', "Published {$count} pages successfully.");
 
                 case 'unpublish':
                     $count = $this->pageService->bulkUpdate($ids, ['status' => 'draft'], $request->user());
+
                     return back()->with('success', "Unpublished {$count} pages successfully.");
 
                 case 'archive':
                     $count = $this->pageService->bulkUpdate($ids, ['status' => 'archived'], $request->user());
+
                     return back()->with('success', "Archived {$count} pages successfully.");
             }
         } catch (\Exception $e) {
-            return back()->withErrors(['error' => 'Bulk operation failed: ' . $e->getMessage()]);
+            return back()->withErrors(['error' => 'Bulk operation failed: '.$e->getMessage()]);
         }
 
         return back();

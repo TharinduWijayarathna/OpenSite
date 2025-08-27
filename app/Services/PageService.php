@@ -4,11 +4,10 @@ namespace App\Services;
 
 use App\Models\Page;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\DB;
 use Exception;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class PageService
 {
@@ -26,9 +25,9 @@ class PageService
 
         if (isset($filters['search'])) {
             $query->where(function ($q) use ($filters) {
-                $q->where('title', 'like', '%' . $filters['search'] . '%')
-                  ->orWhere('content', 'like', '%' . $filters['search'] . '%')
-                  ->orWhere('excerpt', 'like', '%' . $filters['search'] . '%');
+                $q->where('title', 'like', '%'.$filters['search'].'%')
+                    ->orWhere('content', 'like', '%'.$filters['search'].'%')
+                    ->orWhere('excerpt', 'like', '%'.$filters['search'].'%');
             });
         }
 
@@ -48,8 +47,8 @@ class PageService
     public function getPublishedPages(int $perPage = 15): LengthAwarePaginator
     {
         return Page::published()
-                   ->ordered()
-                   ->paginate($perPage);
+            ->ordered()
+            ->paginate($perPage);
     }
 
     /**
@@ -155,6 +154,7 @@ class PageService
     public function deletePage(int $id): bool
     {
         $page = Page::findOrFail($id);
+
         return $page->delete();
     }
 
@@ -217,7 +217,7 @@ class PageService
         unset($data['id'], $data['created_at'], $data['updated_at']);
 
         // Modify title and slug for duplicate
-        $data['title'] = $data['title'] . ' (Copy)';
+        $data['title'] = $data['title'].' (Copy)';
         $data['slug'] = $this->generateUniqueSlug($data['title']);
         $data['status'] = 'draft';
         $data['published_at'] = null;
@@ -264,6 +264,7 @@ class PageService
     private function generateUniqueSlug(string $title, ?int $excludeId = null): string
     {
         $baseSlug = Str::slug($title);
+
         return $this->ensureUniqueSlug($baseSlug, $excludeId);
     }
 
@@ -276,7 +277,7 @@ class PageService
         $counter = 1;
 
         while ($this->slugExists($slug, $excludeId)) {
-            $slug = $originalSlug . '-' . $counter;
+            $slug = $originalSlug.'-'.$counter;
             $counter++;
         }
 
