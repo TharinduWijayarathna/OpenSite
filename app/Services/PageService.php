@@ -16,7 +16,7 @@ class PageService
      */
     public function getAllPages(array $filters = []): LengthAwarePaginator
     {
-        $query = Page::with(['creator', 'updater']);
+        $query = Page::with(['creator', 'updater', 'contents']);
 
         // Apply filters
         if (isset($filters['status'])) {
@@ -56,7 +56,7 @@ class PageService
      */
     public function findPage(int $id): ?Page
     {
-        return Page::with(['creator', 'updater'])->find($id);
+        return Page::with(['creator', 'updater', 'contents'])->find($id);
     }
 
     /**
@@ -64,7 +64,7 @@ class PageService
      */
     public function findBySlug(string $slug): ?Page
     {
-        return Page::bySlug($slug)->first();
+        return Page::with(['contents'])->bySlug($slug)->first();
     }
 
     /**
@@ -72,7 +72,7 @@ class PageService
      */
     public function findPublishedBySlug(string $slug): ?Page
     {
-        return Page::published()->bySlug($slug)->first();
+        return Page::published()->with(['contents'])->bySlug($slug)->first();
     }
 
     /**
@@ -101,7 +101,20 @@ class PageService
                 $data['meta_data'] = array_filter($data['meta_data']);
             }
 
+            $contents = $data['contents'] ?? null;
+            unset($data['contents']);
+
             $page = Page::create($data);
+
+            if (is_array($contents)) {
+                foreach ($contents as $contentData) {
+                    $page->contents()->create([
+                        'priority' => (int)($contentData['priority'] ?? 0),
+                        'text' => $contentData['text'] ?? null,
+                        'images' => $contentData['images'] ?? [],
+                    ]);
+                }
+            }
 
             DB::commit();
 
@@ -137,7 +150,22 @@ class PageService
                 $data['meta_data'] = array_filter($data['meta_data']);
             }
 
+            $contents = $data['contents'] ?? null;
+            unset($data['contents']);
+
             $page->update($data);
+
+            if (is_array($contents)) {
+                // Replace existing contents for simplicity
+                $page->contents()->delete();
+                foreach ($contents as $contentData) {
+                    $page->contents()->create([
+                        'priority' => (int)($contentData['priority'] ?? 0),
+                        'text' => $contentData['text'] ?? null,
+                        'images' => $contentData['images'] ?? [],
+                    ]);
+                }
+            }
 
             DB::commit();
 

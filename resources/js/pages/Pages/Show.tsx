@@ -38,11 +38,17 @@ interface Page {
   };
   meta_title?: string;
   meta_description?: string;
+  contents?: Array<{
+    priority: number;
+    text?: string;
+    images?: string[];
+  }>;
 }
 
 interface ShowPageProps {
   page: Page;
   template: string;
+  [key: string]: any;
 }
 
 export default function Show() {
@@ -95,6 +101,38 @@ export default function Show() {
     }
   };
 
+  const renderBlocks = () => {
+    const blocks = (page.contents || []).slice().sort((a, b) => (a.priority || 0) - (b.priority || 0));
+    if (blocks.length === 0) return null;
+
+    return (
+      <div className="mt-8 space-y-6">
+        {blocks.map((block, idx) => (
+          <div key={idx} className="space-y-4">
+            {block.text && (
+              <div className="prose max-w-none">
+                {renderContent(block.text)}
+              </div>
+            )}
+            {Array.isArray(block.images) && block.images.length > 0 && (
+              <div className="flex flex-wrap gap-3">
+                {block.images.map((img, i) => (
+                  <img
+                    key={i}
+                    src={img.startsWith('http') ? img : `/storage/${img.replace(/^\/+/, '')}`}
+                    alt=""
+                    className="h-36 w-auto rounded border object-cover"
+                    loading="lazy"
+                  />)
+                )}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    );
+  };
+
   // Default Template
   const DefaultTemplate = () => (
     <div className="min-h-screen bg-gray-50">
@@ -141,9 +179,8 @@ export default function Show() {
         <div className="max-w-4xl mx-auto">
           <Card>
             <CardContent className="p-8">
-              <div className="prose prose-lg max-w-none">
-                {renderContent(page.content)}
-              </div>
+              <div className="prose prose-lg max-w-none">{renderContent(page.content)}</div>
+              {renderBlocks()}
             </CardContent>
           </Card>
         </div>
@@ -177,9 +214,8 @@ export default function Show() {
       {/* Content Section */}
       <div className="container mx-auto px-4 py-16">
         <div className="max-w-4xl mx-auto">
-          <div className="prose prose-lg max-w-none">
-            {renderContent(page.content)}
-          </div>
+          <div className="prose prose-lg max-w-none">{renderContent(page.content)}</div>
+          {renderBlocks()}
         </div>
       </div>
     </div>
@@ -238,9 +274,8 @@ export default function Show() {
 
               <Separator className="mb-8" />
 
-              <article className="prose prose-lg max-w-none">
-                {renderContent(page.content)}
-              </article>
+              <article className="prose prose-lg max-w-none">{renderContent(page.content)}</article>
+              {renderBlocks()}
             </CardContent>
           </Card>
         </div>
@@ -277,9 +312,8 @@ export default function Show() {
                     )}
                   </header>
 
-                  <div className="prose prose-lg max-w-none">
-                    {renderContent(page.content)}
-                  </div>
+                  <div className="prose prose-lg max-w-none">{renderContent(page.content)}</div>
+                  {renderBlocks()}
                 </CardContent>
               </Card>
             </div>

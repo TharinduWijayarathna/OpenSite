@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\PageService;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -27,9 +28,15 @@ class PageController extends Controller
     /**
      * Display a specific published page by slug
      */
-    public function show(string $slug): Response
+    public function show(Request $request, string $slug): Response
     {
-        $page = $this->pageService->findPublishedBySlug($slug);
+        $preview = $request->boolean('preview');
+
+        if ($preview && Auth::check()) {
+            $page = $this->pageService->findBySlug($slug);
+        } else {
+            $page = $this->pageService->findPublishedBySlug($slug);
+        }
 
         if (! $page) {
             abort(404);
@@ -38,6 +45,7 @@ class PageController extends Controller
         return Inertia::render('Pages/Show', [
             'page' => $page,
             'template' => $page->template,
+            'preview' => $preview,
         ]);
     }
 }

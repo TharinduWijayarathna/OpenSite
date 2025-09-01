@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Services\PageService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -61,9 +62,31 @@ class PageController extends Controller
             'meta_data.title' => 'nullable|string|max:255',
             'meta_data.description' => 'nullable|string|max:500',
             'meta_data.keywords' => 'nullable|string|max:255',
+            'contents' => 'nullable|array',
+            'contents.*.priority' => 'nullable|integer|min:0',
+            'contents.*.text' => 'nullable|string',
+            'contents.*.images' => 'nullable|array',
+            'contents.*.images.*' => 'nullable',
         ]);
 
         try {
+            // Handle images: convert uploaded files to stored paths
+            if (! empty($validated['contents'])) {
+                foreach ($validated['contents'] as $i => $content) {
+                    if (! empty($content['images'])) {
+                        $paths = [];
+                        foreach ($content['images'] as $image) {
+                            if ($image instanceof UploadedFile) {
+                                $paths[] = $image->store('page-contents', 'public');
+                            } elseif (is_string($image)) {
+                                $paths[] = $image;
+                            }
+                        }
+                        $validated['contents'][$i]['images'] = $paths;
+                    }
+                }
+            }
+
             $page = $this->pageService->createPage($validated, $request->user());
 
             return redirect()
@@ -128,9 +151,30 @@ class PageController extends Controller
             'meta_data.title' => 'nullable|string|max:255',
             'meta_data.description' => 'nullable|string|max:500',
             'meta_data.keywords' => 'nullable|string|max:255',
+            'contents' => 'nullable|array',
+            'contents.*.priority' => 'nullable|integer|min:0',
+            'contents.*.text' => 'nullable|string',
+            'contents.*.images' => 'nullable|array',
+            'contents.*.images.*' => 'nullable',
         ]);
 
         try {
+            if (! empty($validated['contents'])) {
+                foreach ($validated['contents'] as $i => $content) {
+                    if (! empty($content['images'])) {
+                        $paths = [];
+                        foreach ($content['images'] as $image) {
+                            if ($image instanceof UploadedFile) {
+                                $paths[] = $image->store('page-contents', 'public');
+                            } elseif (is_string($image)) {
+                                $paths[] = $image;
+                            }
+                        }
+                        $validated['contents'][$i]['images'] = $paths;
+                    }
+                }
+            }
+
             $page = $this->pageService->updatePage($id, $validated, $request->user());
 
             return redirect()

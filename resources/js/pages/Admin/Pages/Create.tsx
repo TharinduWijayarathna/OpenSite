@@ -11,7 +11,7 @@ import AppLayout from '@/layouts/app-layout';
 import admin from '@/routes/admin';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, useForm, usePage } from '@inertiajs/react';
-import { ArrowLeft, Eye, FileText, Globe, Hash, Plus, Save, Search, Settings } from 'lucide-react';
+import { ArrowLeft, Eye, FileText, Globe, Hash, Plus, Save, Search, Settings, Trash2 } from 'lucide-react';
 import React, { useState } from 'react';
 
 interface CreatePageProps {
@@ -34,6 +34,11 @@ interface PageData {
         description: string;
         keywords: string;
     };
+    contents?: Array<{
+        priority: number;
+        text: string;
+        images: (File | string)[];
+    }>;
 }
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -65,6 +70,7 @@ function Create() {
             description: '',
             keywords: '',
         },
+        contents: [],
     });
 
     const generateSlugFromTitle = (title: string) => {
@@ -94,6 +100,7 @@ function Create() {
         }
 
         post(admin.pages.store().url, {
+            forceFormData: true,
             onSuccess: () => {
                 if (action === 'save_and_continue') {
                     // The backend will redirect to edit page
@@ -104,7 +111,7 @@ function Create() {
         });
     };
 
-    const previewUrl = data.slug ? `/page/${data.slug}` : '#';
+    const previewUrl = data.slug ? `/page/${data.slug}?preview=1` : '#';
 
     return (
         <>
@@ -212,6 +219,94 @@ function Create() {
                                         className={`min-h-[200px] ${errors.content ? 'border-destructive' : ''}`}
                                     />
                                     {errors.content && <p className="text-sm text-destructive">{errors.content}</p>}
+                                </div>
+
+                                {/* Dynamic Content Blocks */}
+                                <div className="space-y-3">
+                                    <div className="flex items-center justify-between">
+                                        <h3 className="text-sm font-medium">Content Blocks</h3>
+                                        <Button
+                                            type="button"
+                                            variant="outline"
+                                            size="sm"
+                                            onClick={() => setData('contents', [
+                                                ...(data.contents || []),
+                                                { priority: (data.contents?.length || 0) + 1, text: '', images: [] },
+                                            ])}
+                                        >
+                                            <Plus className="mr-2 h-4 w-4" /> Add Block
+                                        </Button>
+                                    </div>
+
+                                    {(data.contents || []).map((block, idx) => (
+                                        <div key={idx} className="rounded-md border p-3 space-y-3">
+                                            <div className="grid grid-cols-1 gap-3 sm:grid-cols-4">
+                                                <div className="sm:col-span-1">
+                                                    <Label>Priority</Label>
+                                                    <Input
+                                                        type="number"
+                                                        value={block.priority}
+                                                        onChange={(e) => {
+                                                            const next = [...(data.contents || [])];
+                                                            next[idx] = { ...block, priority: parseInt(e.target.value) || 0 };
+                                                            setData('contents', next);
+                                                        }}
+                                                    />
+                                                </div>
+                                                <div className="sm:col-span-3">
+                                                    <Label>Text</Label>
+                                                    <Textarea
+                                                        value={block.text}
+                                                        onChange={(e) => {
+                                                            const next = [...(data.contents || [])];
+                                                            next[idx] = { ...block, text: e.target.value };
+                                                            setData('contents', next);
+                                                        }}
+                                                        rows={3}
+                                                    />
+                                                </div>
+                                            </div>
+
+                                            <div className="space-y-2">
+                                                <Label>Images</Label>
+                                                <Input
+                                                    type="file"
+                                                    multiple
+                                                    accept="image/*"
+                                                    onChange={(e) => {
+                                                        const files = Array.from(e.target.files || []);
+                                                        const next = [...(data.contents || [])];
+                                                        next[idx] = { ...block, images: files };
+                                                        setData('contents', next);
+                                                    }}
+                                                />
+                                                {block.images && block.images.length > 0 && (
+                                                    <div className="flex flex-wrap gap-2">
+                                                        {block.images.map((img, i) => (
+                                                            <span key={i} className="inline-flex items-center rounded border px-2 py-1 text-xs">
+                                                                {typeof img === 'string' ? img.split('/').pop() : img.name}
+                                                            </span>
+                                                        ))}
+                                                    </div>
+                                                )}
+                                            </div>
+
+                                            <div className="flex justify-end">
+                                                <Button
+                                                    type="button"
+                                                    variant="ghost"
+                                                    size="sm"
+                                                    onClick={() => {
+                                                        const next = [...(data.contents || [])];
+                                                        next.splice(idx, 1);
+                                                        setData('contents', next);
+                                                    }}
+                                                >
+                                                    <Trash2 className="mr-2 h-4 w-4" /> Remove
+                                                </Button>
+                                            </div>
+                                        </div>
+                                    ))}
                                 </div>
                             </CardContent>
                         </Card>
