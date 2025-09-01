@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Services\PageService;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
 

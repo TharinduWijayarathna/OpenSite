@@ -109,7 +109,7 @@ class PageService
             if (is_array($contents)) {
                 foreach ($contents as $contentData) {
                     $page->contents()->create([
-                        'priority' => (int)($contentData['priority'] ?? 0),
+                        'priority' => (int) ($contentData['priority'] ?? 0),
                         'text' => $contentData['text'] ?? null,
                         'images' => $contentData['images'] ?? [],
                     ]);
@@ -160,7 +160,7 @@ class PageService
                 $page->contents()->delete();
                 foreach ($contents as $contentData) {
                     $page->contents()->create([
-                        'priority' => (int)($contentData['priority'] ?? 0),
+                        'priority' => (int) ($contentData['priority'] ?? 0),
                         'text' => $contentData['text'] ?? null,
                         'images' => $contentData['images'] ?? [],
                     ]);
